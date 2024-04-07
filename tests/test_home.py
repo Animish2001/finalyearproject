@@ -1,4 +1,5 @@
 # importing selenium
+import pytest
 
 from page_object.home_page import HomePage
 from utils.actions import Actions
@@ -13,9 +14,10 @@ class HomeTest(HomePage):
         # opening homepage
         Actions.access_app(self)
 
-        HomePage.open_page(self)
+        # HomePage.open_page(self)
 
     def test_home_page(self):
+
         # for loading the page
         # self.page_load_strategy()
 
@@ -26,6 +28,10 @@ class HomeTest(HomePage):
         # self.assert_title("Allergy & Itch Relief Medicine for Adults & Children | BENADRYL®")
 
         # assert logo(optional)
+        self.wait(10)
+        self.click(HomePage.accept)
+        self.wait(30)
+        self.click(HomePage.pop_up)
         self.assert_element(HomePage.logo_icon)
 
         # homepage text
@@ -33,15 +39,20 @@ class HomeTest(HomePage):
         #
         # click on get started button and assert the url
         self.click(HomePage.learn_more_about_benadryl)  # x-path locator"//a[@class='btn btn-secondary-inverted']"
+        self.wait(10)
         # $$("a[class='btn btn-secondary-inverted']") css selector
         # learn_more_about_benadryl_url=self.get_current_url() # it will store the value as string in learn_more_url variable
         # self.assert_equal(learn_more_about_benadryl_url,"https://www.benadryl.com/benadryl-difference")
         # self.assert_true("benadryl-difference" in learn_more_about_benadryl_url) #verifying if the get-started is working properly(partial verification)
-        # self.go_back()
+        self.go_back()
 
         # self.wait_for_text_not_visible("//a[@href='/products' and contains(text(), 'VIEW ALL BENADRYL® PRODUCTS'")
         # self.click("//a[@href='/products' and contains(text(), 'VIEW ALL BENADRYL® PRODUCTS'")
         # self.go_back()
+
+        self.wait_for_element_clickable(HomePage.view_all_benadryl_product)
+        self.click(HomePage.view_all_benadryl_product)
+        self.go_back()
 
         #######
         # xpath for view all products link
@@ -219,3 +230,6 @@ class HomeTest(HomePage):
 
     # header of benadryl
     # self.click("//a[@id='tab-menu-8651']")
+
+if __name__ == "__main__":
+    pytest.main(["-v", "--html=report.html"])
